@@ -1,0 +1,47 @@
+{
+  "name": "aidlc-main",
+  "description": "Software development agent with structured workflow guidance",
+  "prompt": "file://./prompts/aidlc-main.md",
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y", 
+        "@upstash/context7-mcp", 
+        "--api-key", 
+        "ctx7sk-41ea6b43-d42b-436c-854e-d3da40e099ff"
+      ],
+      "env": {},
+      "disabled": false
+    },
+    "aws-knowledge-mcp-server": {
+      "url": "https://knowledge-mcp.global.api.aws",
+      "type": "http",
+      "disabled": false
+    }
+  },
+  "tools": [
+    "*"
+  ],
+  "toolAliases": {},
+  "allowedTools": [
+    "read",
+    "glob",
+    "grep",
+    "web_*",
+    "@context7",
+    "@aws-knowledge-mcp-server"
+  ],
+  "resources": [
+    "file://.kiro/steering/aws-aidlc-rules/core-workflow.md",
+    "skill://.kiro/skills/*/SKILL.md"
+  ],
+  "toolsSettings": {
+    "subagent": {
+      "availableAgents": ["research-agent"],
+      "trustedAgents": ["research-agent"]
+    }
+  },
+  "includeMcpJson": false,
+  "model": "claude-opus-4.6"
+}

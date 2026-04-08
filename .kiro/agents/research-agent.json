@@ -1,0 +1,28 @@
+{
+  "name": "research-agent",
+  "description": "Deep research and analysis agent for comprehensive investigation of topics. Synthesizes information from multiple sources, produces structured research reports, and provides well-reasoned analysis. Keywords: research, analysis, investigation, report, synthesis, deep dive, comprehensive",
+  "prompt": "file://./prompts/research-agent.md",
+  "mcpServers": {
+    "tavily": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tavily-mcp@latest"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "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",
+        "DEFAULT_PARAMETERS": "{\"include_images\": true, \"max_results\": 15, \"search_depth\": \"advanced\"}"
+      }
+    }
+  },
+  "tools": [
+    "*"
+  ],
+  "allowedTools": [
+    "read",
+    "write",
+    "shell",
+    "@tavily"
+  ],
+  "model": "claude-sonnet-4.6"
+}
