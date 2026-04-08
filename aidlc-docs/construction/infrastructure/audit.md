@@ -118,3 +118,16 @@ Tech stack decisions 문서 생성.
 | Security Baseline | Compliant | SECURITY-01(RDS 암호화+TLS), 02(Nginx 로그→CW), 04(Nginx 보안 헤더), 07(SG 체인), 09(SSM+IMDSv2), 10(npm audit), 12(IAM Role), 13(OIDC+env protection), 14(CW Alarms→SNS) |
 
 ---
+
+## Build and Test — Complete
+**Timestamp**: 2026-04-08T16:30:00+09:00
+**AI Response**: Infrastructure Unit Build and Test 완료. 5개 테스트 문서 생성:
+- build-instructions.md: CDK 빌드/synth 절차
+- unit-test-instructions.md: TypeScript 검사, CDK synth, SG/RDS/IAM 수동 검증
+- integration-test-instructions.md: 6개 통합 테스트 시나리오
+- security-test-instructions.md: 9개 SECURITY 규칙 검증 체크리스트
+- build-and-test-summary.md: 전체 요약
+Infrastructure Unit CONSTRUCTION 전체 완료.
+**Context**: CONSTRUCTION - Infrastructure, Build and Test complete. Unit complete.
+
+---
