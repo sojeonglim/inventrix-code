@@ -1,17 +1,18 @@
+import { Tile } from '@carbon/react'
 import type { ReactNode } from 'react'
 
-interface Props { title: string; value: string | number; icon: ReactNode; color?: string }
+interface Props { title: string; value: string | number; icon: ReactNode }
 
-export function KPICard({ title, value, icon, color = 'text-brand-600' }: Props) {
+export function KPICard({ title, value, icon }: Props) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow" data-testid="kpi-card">
-      <div className="flex items-center justify-between">
+    <Tile data-testid="kpi-card">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
-          <p className={`text-2xl font-bold mt-1 ${color} dark:text-white`}>{value}</p>
+          <p style={{ fontSize: 12, color: 'var(--cds-text-secondary)', marginBottom: 4 }}>{title}</p>
+          <p style={{ fontSize: 28, fontWeight: 600 }}>{value}</p>
         </div>
-        <span className="text-2xl">{icon}</span>
+        <span style={{ fontSize: 24 }}>{icon}</span>
       </div>
-    </div>
+    </Tile>
   )
 }

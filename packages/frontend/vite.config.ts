@@ -7,6 +7,11 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },
+  css: {
+    preprocessorOptions: {
+      scss: { quietDeps: true },
+    },
+  },
   server: {
     proxy: {
       '/api': { target: 'http://localhost:3000', changeOrigin: true },

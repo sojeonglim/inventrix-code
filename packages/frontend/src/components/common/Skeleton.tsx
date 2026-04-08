@@ -1,5 +1,5 @@
-import { cn } from '@/lib/constants'
+import { SkeletonPlaceholder } from '@carbon/react'
 
-export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn('animate-pulse rounded-md bg-gray-200 dark:bg-gray-700', className)} />
+export function Skeleton({ width = '100%', height = '1rem' }: { width?: string; height?: string }) {
+  return <SkeletonPlaceholder style={{ width, height }} />
 }
