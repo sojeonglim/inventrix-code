@@ -87,3 +87,107 @@
 **Context**: INCEPTION - Requirements Analysis Step 7 (Generate Requirements Document)
 
 ---
+
+## Requirements Analysis - Approval
+**Timestamp**: 2026-04-08T13:48:28+09:00
+**User Input**: "좋아 requirements.md 를 확인 완료했어. 다음 단계는 뭐지? 각 담당자들이 언제 role-specific-questions.md 에 답해야하는지 알려줘."
+**AI Response**: Requirements 승인 확인. 다음 단계 및 role-specific-questions 타이밍 안내.
+**Context**: INCEPTION - Requirements Analysis approved, proceeding to User Stories
+
+---
+
+## User Stories - Part 1 Planning Start
+**Timestamp**: 2026-04-08T13:49:06+09:00
+**User Input**: "좋아 계속 진행해줘"
+**AI Response**: User Stories 단계 시작. Assessment 수행 (Execute: Yes). story-generation-plan.md 생성 (6개 질문 + 8단계 생성 계획). 사용자 답변 대기.
+**Context**: INCEPTION - User Stories Part 1 (Planning) - Step 1~7
+
+---
+
+## User Stories - Part 1 Answers
+**Timestamp**: 2026-04-08T13:52:06+09:00
+**User Input**: "동의해. 파일에 반영해줘"
+**AI Response**: 6개 답변 반영 완료 (C, B, A, C, C, C). 모호성 없음 — 모든 답변이 명확한 단일 옵션 선택. Part 2 Generation 진행 가능.
+**Context**: INCEPTION - User Stories Part 1 (Planning) - Step 8~10 (Answer collection & analysis)
+
+---
+
+## User Stories - Plan Approval
+**Timestamp**: 2026-04-08T13:54:36+09:00
+**User Input**: "승인"
+**AI Response**: Story Generation Plan 승인 확인. Part 2 Generation 시작.
+**Context**: INCEPTION - User Stories Part 1 (Planning) approved, proceeding to Part 2 (Generation)
+
+---
+
+## User Stories - Persona Consolidation Request
+**Timestamp**: 2026-04-08T14:01:16+09:00
+**User Input**: "사용자 페르소나를 고객, 관리자, 직원 으로만 구분해줘."
+**AI Response**: 페르소나 통합 계획 제시 및 3개 clarification 질문. (1) 슈퍼 관리자 권한 → 관리자, (2) 창고 관리자 권한 → 직원 vs 관리자, (3) 분석가 권한 → 관리자.
+**Context**: INCEPTION - User Stories (Part 2 - Generation) - Persona restructuring request
+
+---
+
+## User Stories - Persona Consolidation Answers
+**Timestamp**: 2026-04-08T14:01:16+09:00
+**User Input**: "1 맞아. 2 직원에게 3. 맞아."
+**AI Response**: 답변 확인. (1) 슈퍼 관리자 권한 → 관리자에게 부여, (2) 창고 관리자 권한(재고 수정, 배송 상태 변경) → 직원에게 부여, (3) 분석가 대시보드 조회 → 관리자에게만 부여. personas.md, stories.md, requirements.md 업데이트 진행.
+**Context**: INCEPTION - User Stories (Part 2 - Generation) - Persona consolidation confirmed
+
+---
+
+## User Stories - Approval & Proceed
+**Timestamp**: 2026-04-08T14:03:56+09:00
+**User Input**: "다음 단계로 진행해줘"
+**AI Response**: User Stories 승인으로 간주. aidlc-state.md 업데이트 후 Workflow Planning 단계로 진행.
+**Context**: INCEPTION - User Stories approved, proceeding to Workflow Planning
+
+---
+
+## Workflow Planning - Approval
+**Timestamp**: 2026-04-08T14:06:55+09:00
+**User Input**: "실행계획 승인"
+**AI Response**: Workflow Planning 승인 확인. aidlc-state.md 업데이트 후 Application Design 단계로 진행.
+**Context**: INCEPTION - Workflow Planning approved, proceeding to Application Design
+
+---
+
+## Application Design - Recommendation Request
+**Timestamp**: 2026-04-08T14:08:35+09:00
+**User Input**: "질문별 추천 안과 이유를 알려줘"
+**AI Response**: 3개 질문에 대한 추천안 및 근거 제시.
+**Context**: INCEPTION - Application Design (Question Phase)
+
+---
+
+## Application Design - Answers Confirmed
+**Timestamp**: 2026-04-08T14:11:45+09:00
+**User Input**: "선택 완료했어."
+**AI Response**: 추천안(Q1:A, Q2:A, Q3:B) 확정. 설계 문서 생성 진행.
+**Context**: INCEPTION - Application Design (Answers confirmed: EventEmitter, DB notifications, Per-user SSE)
+
+---
+
+## Application Design - Approval
+**Timestamp**: 2026-04-08T14:17:09+09:00
+**User Input**: "다음 단계로 진행해줘. unit 은 front/backend/infra 세 개로 나누면 좋겠어. 혹시 적절하지 않다면 다른 단위를 제안해도 좋아."
+**AI Response**: Application Design 승인 확인. Units Generation 단계로 진행. 사용자가 Frontend/Backend/Infra 3개 Unit 분할을 제안.
+**Context**: INCEPTION - Application Design approved, proceeding to Units Generation
+
+---
+
+## Units Generation - API Contract Design Request
+**Timestamp**: 2026-04-08T14:21:04+09:00
+**User Input**: "unit 별로 담당자가 나눠서 업무를 진행할 예정인데, 그 전에 각 Unit 간에 필요한 api contract 등 미리 정리해둘 사항들을 설계하고싶어."
+**AI Response**: Units Generation 승인으로 간주. Unit 간 공유 계약(API contract, 타입, SSE 이벤트 스키마 등) 설계 진행.
+**Context**: INCEPTION - Units Generation approved, proceeding to cross-unit contract design before CONSTRUCTION
+
+---
+
+## Units Generation - Cross-Unit Contract Review
+**Timestamp**: 2026-04-08T14:24:21+09:00
+**User Input**: "cross unit contracts 를 만들었는데, unit-of-work 관련 문서에 변경이 필요한지 검토해줘."
+**AI Response**: 검토 결과 2개 문서 업데이트. (1) unit-of-work.md: 실행 순서를 순차→병렬로 변경, Unit 2/3 의존성을 "Backend 완료 대기"에서 "cross-unit-contracts.md 참조"로 변경. (2) unit-of-work-dependency.md: 의존성 매트릭스를 3개 Unit 모두 contracts 참조로 변경, 실행 순서 다이어그램 병렬로 변경, Coordination Points 업데이트, 계약 변경 관리 규칙 추가.
+**Context**: INCEPTION - Units Generation, cross-unit contracts 반영으로 unit-of-work 문서 업데이트
+
+---
