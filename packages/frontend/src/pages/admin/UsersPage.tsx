@@ -1,7 +1,8 @@
+import { useState } from 'react'
+import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Select, SelectItem } from '@carbon/react'
 import { useUsers, useUpdateUserRole } from '@/hooks/use-users'
 import { useToast } from '@/contexts/ToastContext'
 import { ConfirmDialog } from '@/components/common/ConfirmDialog'
-import { useState } from 'react'
 import type { Role } from '@/types'
 
 export default function UsersPage() {
@@ -12,38 +13,46 @@ export default function UsersPage() {
 
   const handleConfirm = async () => {
     if (!confirm) return
-    try {
-      await updateRole.mutateAsync(confirm)
-      addToast('success', '역할이 변경되었습니다')
-    } catch { addToast('error', '변경에 실패했습니다') }
+    try { await updateRole.mutateAsync(confirm); addToast('success', '역할 변경됨') }
+    catch { addToast('error', '변경 실패') }
     setConfirm(null)
   }
 
+  const headers = [
+    { key: 'name', header: 'Name' }, { key: 'email', header: 'Email' }, { key: 'role', header: 'Role' },
+  ]
+  const rows = users?.map(u => ({ id: u.id, name: u.name, email: u.email, role: u })) ?? []
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">User Management</h1>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-x-auto">
-        <table className="w-full text-sm" data-testid="users-table">
-          <thead><tr className="border-b dark:border-gray-700 text-left text-gray-500">
-            <th className="p-3">Name</th><th className="p-3">Email</th><th className="p-3">Role</th>
-          </tr></thead>
-          <tbody>
-            {isLoading ? <tr><td colSpan={3} className="p-4 text-center text-gray-500">로딩 중...</td></tr>
-            : users?.map(u => (
-              <tr key={u.id} className="border-b dark:border-gray-700">
-                <td className="p-3 text-gray-900 dark:text-white">{u.name}</td>
-                <td className="p-3 text-gray-500">{u.email}</td>
-                <td className="p-3">
-                  <select value={u.role} onChange={e => setConfirm({ id: u.id, role: e.target.value as Role })}
-                    data-testid={`role-select-${u.id}`} className="px-2 py-1 border rounded text-xs dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <option value="admin">Admin</option><option value="staff">Staff</option><option value="customer">Customer</option>
-                  </select>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <h1>User Management</h1>
+      <DataTable rows={rows} headers={headers} data-testid="users-table">
+        {({ rows: r, headers: h, getTableProps, getHeaderProps, getRowProps }) => (
+          <Table {...getTableProps()}>
+            <TableHead><TableRow>{h.map(header => <TableHeader {...getHeaderProps({ header })} key={header.key}>{header.header}</TableHeader>)}</TableRow></TableHead>
+            <TableBody>
+              {isLoading ? <TableRow><TableCell colSpan={3}>로딩 중...</TableCell></TableRow>
+              : r.map(row => (
+                <TableRow {...getRowProps({ row })} key={row.id}>
+                  {row.cells.map(cell => (
+                    <TableCell key={cell.id}>
+                      {cell.info.header === 'role' ? (
+                        <Select id={`role-${row.id}`} labelText="" hideLabel size="sm" value={cell.value.role}
+                          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setConfirm({ id: row.id, role: e.target.value as Role })}
+                          data-testid={`role-select-${row.id}`}>
+                          <SelectItem value="admin" text="Admin" />
+                          <SelectItem value="staff" text="Staff" />
+                          <SelectItem value="customer" text="Customer" />
+                        </Select>
+                      ) : cell.value}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DataTable>
       <ConfirmDialog open={!!confirm} onConfirm={handleConfirm} onCancel={() => setConfirm(null)}
         title="역할 변경" description={`이 사용자의 역할을 ${confirm?.role}로 변경하시겠습니까?`} confirmLabel="변경" />
     </div>

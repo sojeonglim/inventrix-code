@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Button, Tag } from '@carbon/react'
 import { useRefunds, useUpdateRefund } from '@/hooks/use-refunds'
 import { Pagination } from '@/components/common/Pagination'
 import { useToast } from '@/contexts/ToastContext'
@@ -11,40 +12,42 @@ export default function RefundsPage() {
   const { addToast } = useToast()
 
   const handleProcess = async (id: string) => {
-    try {
-      await updateRefund.mutateAsync({ id, status: 'refunded' as RefundStatus })
-      addToast('success', '환불이 처리되었습니다')
-    } catch { addToast('error', '처리에 실패했습니다') }
+    try { await updateRefund.mutateAsync({ id, status: 'refunded' as RefundStatus }); addToast('success', '환불 처리됨') }
+    catch { addToast('error', '처리 실패') }
   }
 
+  const headers = [
+    { key: 'id', header: 'ID' }, { key: 'orderId', header: 'Order' }, { key: 'amount', header: 'Amount' },
+    { key: 'status', header: 'Status' }, { key: 'actions', header: 'Actions' },
+  ]
+  const rows = data?.data.map(r => ({ id: r.id, orderId: `#${r.orderId}`, amount: `$${r.amount.toFixed(2)}`, status: r.status, actions: r })) ?? []
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Refunds</h1>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-x-auto">
-        <table className="w-full text-sm" data-testid="refunds-table">
-          <thead><tr className="border-b dark:border-gray-700 text-left text-gray-500">
-            <th className="p-3">ID</th><th className="p-3">Order</th><th className="p-3">Amount</th><th className="p-3">Status</th><th className="p-3">Actions</th>
-          </tr></thead>
-          <tbody>
-            {isLoading ? <tr><td colSpan={5} className="p-4 text-center text-gray-500">로딩 중...</td></tr>
-            : data?.data.map(r => (
-              <tr key={r.id} className="border-b dark:border-gray-700">
-                <td className="p-3 text-gray-900 dark:text-white">#{r.id}</td>
-                <td className="p-3">#{r.orderId}</td>
-                <td className="p-3">${r.amount.toFixed(2)}</td>
-                <td className="p-3"><span className={`px-2 py-1 rounded-full text-xs font-medium ${r.status === 'refunded' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`}>{r.status}</span></td>
-                <td className="p-3">
-                  {r.status === 'pending_refund' && (
-                    <button data-testid={`process-refund-${r.id}`} onClick={() => handleProcess(r.id)}
-                      className="px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600">Process</button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {data && <Pagination page={page} totalPages={data.totalPages} onPageChange={setPage} />}
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <h1>Refunds</h1>
+      <DataTable rows={rows} headers={headers} data-testid="refunds-table">
+        {({ rows: r, headers: h, getTableProps, getHeaderProps, getRowProps }) => (
+          <Table {...getTableProps()}>
+            <TableHead><TableRow>{h.map(header => <TableHeader {...getHeaderProps({ header })} key={header.key}>{header.header}</TableHeader>)}</TableRow></TableHead>
+            <TableBody>
+              {isLoading ? <TableRow><TableCell colSpan={5}>로딩 중...</TableCell></TableRow>
+              : r.map(row => (
+                <TableRow {...getRowProps({ row })} key={row.id}>
+                  {row.cells.map(cell => (
+                    <TableCell key={cell.id}>
+                      {cell.info.header === 'status' ? <Tag type={cell.value === 'refunded' ? 'green' : 'warm-gray'} size="sm">{cell.value}</Tag>
+                      : cell.info.header === 'actions' ? (
+                        cell.value.status === 'pending_refund' ? <Button size="sm" kind="primary" data-testid={`process-refund-${row.id}`} onClick={() => handleProcess(row.id)}>Process</Button> : null
+                      ) : cell.info.header === 'id' ? `#${cell.value}` : cell.value}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DataTable>
+      {data && <Pagination page={page} totalItems={data.total} pageSize={20} onPageChange={setPage} />}
     </div>
   )
 }
