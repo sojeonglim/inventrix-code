@@ -33,7 +33,8 @@
 
 ## Stage Progress
 - [x] Functional Design
-- [ ] NFR Requirements
+- [x] NFR Requirements
+- [ ] NFR Design
 - [ ] NFR Requirements
 - [ ] NFR Design
 - [ ] Infrastructure Design — Skip 가능 (Unit 3 주 담당)
