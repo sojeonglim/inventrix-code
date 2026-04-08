@@ -1,0 +1,47 @@
+name: CD Staging
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy-staging:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN_STAGING }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to staging
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ec2-user
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /var/www/inventrix
+            git pull origin main
+            pnpm install --frozen-lockfile
+            pnpm --filter @inventrix/api build
+            pnpm --filter @inventrix/frontend build
+            pm2 reload ecosystem.config.js --env staging
+            sleep 5
+            curl -f http://localhost:3000/api/health || (pm2 reload ecosystem.config.js --update-env && exit 1)
+
+      - name: Health check
+        run: |
+          sleep 10
+          curl -f https://${{ secrets.STAGING_HOST }}/api/health || exit 1

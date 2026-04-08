@@ -435,7 +435,7 @@ interface SSEEvent {
 |---|---|---|---|
 | `DATABASE_URL` | DB 연결 문자열 | Backend, Infra | `postgresql://user:pass@host:5432/inventrix` |
 | `JWT_SECRET` | JWT 서명 키 | Backend, Infra | (시크릿 매니저에서 로드) |
-| `JWT_EXPIRES_IN` | 토큰 만료 시간 | Backend | `1h` |
+| `JWT_EXPIRES_IN` | 토큰 만료 시간 | Backend | `15m` |
 | `JWT_REFRESH_EXPIRES_IN` | 리프레시 토큰 만료 | Backend | `7d` |
 | `PORT` | API 서버 포트 | Backend, Infra | `3000` |
 | `NODE_ENV` | 실행 환경 | Backend, Infra | `production` |
