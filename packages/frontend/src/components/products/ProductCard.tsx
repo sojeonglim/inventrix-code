@@ -1,27 +1,26 @@
-import { Link } from 'react-router-dom'
+import { ClickableTile, Tag } from '@carbon/react'
+import { useNavigate } from 'react-router-dom'
 import type { Product } from '@/types'
 
 export function ProductCard({ product }: { product: Product }) {
-  const stockLabel = product.availableStock > 10 ? 'In Stock'
-    : product.availableStock > 0 ? `${product.availableStock} left` : 'Out of Stock'
-  const stockColor = product.availableStock > 10 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-    : product.availableStock > 0 ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200'
-    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+  const navigate = useNavigate()
+  const stockLabel = product.availableStock > 10 ? 'In Stock' : product.availableStock > 0 ? `${product.availableStock} left` : 'Out of Stock'
+  const tagType = product.availableStock > 10 ? 'green' : product.availableStock > 0 ? 'warm-gray' : 'red'
 
   return (
-    <Link to={`/products/${product.id}`} data-testid={`product-card-${product.id}`}
-      className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-      <div className="relative pt-[75%] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600">
-        {product.imageUrl && <img src={product.imageUrl} alt={product.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />}
+    <ClickableTile data-testid={`product-card-${product.id}`} onClick={() => navigate(`/products/${product.id}`)}
+      style={{ padding: 0, overflow: 'hidden' }}>
+      <div style={{ height: 180, background: 'var(--cds-layer-02)', overflow: 'hidden' }}>
+        {product.imageUrl && <img src={product.imageUrl} alt={product.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
       </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{product.name}</h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{product.description}</p>
-        <div className="flex justify-between items-center mt-3">
-          <span className="text-lg font-bold text-brand-600 dark:text-brand-400">${product.price.toFixed(2)}</span>
-          <span className={`text-xs font-medium px-2 py-1 rounded-full ${stockColor}`}>{stockLabel}</span>
+      <div style={{ padding: '1rem' }}>
+        <h4 style={{ marginBottom: 4 }}>{product.name}</h4>
+        <p style={{ fontSize: 12, color: 'var(--cds-text-secondary)', marginBottom: 8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{product.description}</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 18, fontWeight: 600 }}>${product.price.toFixed(2)}</span>
+          <Tag type={tagType} size="sm">{stockLabel}</Tag>
         </div>
       </div>
-    </Link>
+    </ClickableTile>
   )
 }

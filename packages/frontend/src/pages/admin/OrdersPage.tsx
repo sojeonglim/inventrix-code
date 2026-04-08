@@ -1,46 +1,60 @@
 import { useState } from 'react'
+import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, Dropdown } from '@carbon/react'
 import { useOrders } from '@/hooks/use-orders'
 import { OrderStatusBadge } from '@/components/orders/OrderStatusBadge'
 import { OrderActions } from '@/components/orders/OrderActions'
 import { Pagination } from '@/components/common/Pagination'
 import type { OrderStatus } from '@/types'
 
+const statusItems = [
+  { id: '', text: 'All' }, { id: 'pending', text: 'Pending' }, { id: 'processing', text: 'Processing' },
+  { id: 'shipped', text: 'Shipped' }, { id: 'delivered', text: 'Delivered' }, { id: 'cancelled', text: 'Cancelled' },
+]
+
 export default function AdminOrdersPage() {
   const [page, setPage] = useState(1)
   const [status, setStatus] = useState<OrderStatus | undefined>()
   const { data, isLoading } = useOrders({ status, page, pageSize: 20 })
 
+  const headers = [
+    { key: 'id', header: 'ID' }, { key: 'total', header: 'Total' }, { key: 'status', header: 'Status' },
+    { key: 'date', header: 'Date' }, { key: 'actions', header: 'Actions' },
+  ]
+  const rows = data?.data.map(o => ({
+    id: o.id, total: `$${o.total.toFixed(2)}`, status: o.status,
+    date: new Date(o.createdAt).toLocaleDateString(), actions: o,
+  })) ?? []
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Orders</h1>
-        <select value={status ?? ''} onChange={e => { setStatus((e.target.value || undefined) as OrderStatus | undefined); setPage(1) }}
-          data-testid="order-status-filter" className="px-3 py-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-          <option value="">All</option>
-          <option value="pending">Pending</option><option value="processing">Processing</option>
-          <option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
-        </select>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Orders</h1>
+        <Dropdown id="status-filter" titleText="" label="Filter" items={statusItems} itemToString={(i: { text: string }) => i?.text ?? ''}
+          onChange={({ selectedItem }: { selectedItem: { id: string } }) => { setStatus((selectedItem.id || undefined) as OrderStatus | undefined); setPage(1) }}
+          data-testid="order-status-filter" style={{ width: 160 }} />
       </div>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-x-auto">
-        <table className="w-full text-sm" data-testid="admin-orders-table">
-          <thead><tr className="border-b dark:border-gray-700 text-left text-gray-500">
-            <th className="p-3">ID</th><th className="p-3">Total</th><th className="p-3">Status</th><th className="p-3">Date</th><th className="p-3">Actions</th>
-          </tr></thead>
-          <tbody>
-            {isLoading ? <tr><td colSpan={5} className="p-4 text-center text-gray-500">로딩 중...</td></tr>
-            : data?.data.map(o => (
-              <tr key={o.id} className="border-b dark:border-gray-700">
-                <td className="p-3 text-gray-900 dark:text-white">#{o.id}</td>
-                <td className="p-3">${o.total.toFixed(2)}</td>
-                <td className="p-3"><OrderStatusBadge status={o.status} /></td>
-                <td className="p-3 text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</td>
-                <td className="p-3"><OrderActions order={o} role="admin" /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {data && <Pagination page={page} totalPages={data.totalPages} onPageChange={setPage} />}
-      </div>
+      <DataTable rows={rows} headers={headers} data-testid="admin-orders-table">
+        {({ rows: r, headers: h, getTableProps, getHeaderProps, getRowProps }) => (
+          <Table {...getTableProps()}>
+            <TableHead><TableRow>{h.map(header => <TableHeader {...getHeaderProps({ header })} key={header.key}>{header.header}</TableHeader>)}</TableRow></TableHead>
+            <TableBody>
+              {isLoading ? <TableRow><TableCell colSpan={5}>로딩 중...</TableCell></TableRow>
+              : r.map(row => (
+                <TableRow {...getRowProps({ row })} key={row.id}>
+                  {row.cells.map(cell => (
+                    <TableCell key={cell.id}>
+                      {cell.info.header === 'status' ? <OrderStatusBadge status={cell.value} />
+                      : cell.info.header === 'actions' ? <OrderActions order={cell.value} role="admin" />
+                      : cell.info.header === 'id' ? `#${cell.value}` : cell.value}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DataTable>
+      {data && <Pagination page={page} totalItems={data.total} pageSize={20} onPageChange={setPage} />}
     </div>
   )
 }

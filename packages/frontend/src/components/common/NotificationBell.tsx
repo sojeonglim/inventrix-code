@@ -1,3 +1,5 @@
+import { HeaderGlobalAction } from '@carbon/react'
+import { Notification } from '@carbon/icons-react'
 import { useState } from 'react'
 import { useNotifications, useUnreadCount, useMarkAsRead } from '@/hooks/use-notifications'
 
@@ -9,29 +11,28 @@ export function NotificationBell() {
   const count = countData?.count ?? 0
 
   return (
-    <div className="relative">
-      <button data-testid="notification-bell" onClick={() => setOpen(!open)}
-        className="relative p-2 rounded-lg hover:bg-white/20 transition-colors" aria-label="Notifications">
-        🔔
+    <div style={{ position: 'relative' }}>
+      <HeaderGlobalAction aria-label="Notifications" onClick={() => setOpen(!open)} data-testid="notification-bell">
+        <Notification size={20} />
         {count > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">{count > 9 ? '9+' : count}</span>
+          <span style={{ position: 'absolute', top: 6, right: 6, background: '#da1e28', color: '#fff', borderRadius: '50%', width: 16, height: 16, fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {count > 9 ? '9+' : count}
+          </span>
         )}
-      </button>
+      </HeaderGlobalAction>
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50">
-          <div className="p-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-sm text-gray-900 dark:text-gray-100">알림</div>
+        <div style={{ position: 'absolute', right: 0, top: '100%', width: 320, maxHeight: 400, overflowY: 'auto', background: 'var(--cds-layer)', border: '1px solid var(--cds-border-subtle)', zIndex: 9000, boxShadow: '0 4px 16px rgba(0,0,0,.12)' }}>
+          <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--cds-border-subtle)', fontWeight: 600, fontSize: 14 }}>알림</div>
           {!notifications?.length ? (
-            <div className="p-4 text-sm text-gray-500 text-center">알림이 없습니다</div>
-          ) : (
-            notifications.map(n => (
-              <button key={n.id} data-testid={`notification-item-${n.id}`}
-                onClick={() => { if (!n.read) markAsRead.mutate(n.id) }}
-                className={`w-full text-left p-3 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${!n.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}>
-                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{n.title}</p>
-                <p className="text-xs text-gray-500 mt-1">{n.message}</p>
-              </button>
-            ))
-          )}
+            <div style={{ padding: '1rem', textAlign: 'center', fontSize: 14, color: 'var(--cds-text-secondary)' }}>알림이 없습니다</div>
+          ) : notifications.map(n => (
+            <button key={n.id} data-testid={`notification-item-${n.id}`}
+              onClick={() => { if (!n.read) markAsRead.mutate(n.id) }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '0.75rem 1rem', borderBottom: '1px solid var(--cds-border-subtle)', background: n.read ? 'transparent' : 'var(--cds-layer-selected)', cursor: 'pointer', border: 'none', fontSize: 14 }}>
+              <div style={{ fontWeight: 500 }}>{n.title}</div>
+              <div style={{ fontSize: 12, color: 'var(--cds-text-secondary)', marginTop: 4 }}>{n.message}</div>
+            </button>
+          ))}
         </div>
       )}
     </div>
