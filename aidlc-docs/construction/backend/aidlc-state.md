@@ -38,5 +38,5 @@
 - [ ] NFR Requirements
 - [x] NFR Design
 - [ ] Infrastructure Design — Skip (Unit 3 주 담당)
-- [ ] Code Generation
-- [ ] Build and Test
+- [x] Code Generation (Planning + Generation 완료)
+- [x] Build and Test
