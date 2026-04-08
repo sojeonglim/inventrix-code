@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { DataTable, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from '@carbon/react'
 import { useOrders } from '@/hooks/use-orders'
 import { OrderStatusBadge } from '@/components/orders/OrderStatusBadge'
 import { OrderActions } from '@/components/orders/OrderActions'
@@ -8,29 +9,37 @@ export default function StaffOrdersPage() {
   const [page, setPage] = useState(1)
   const { data, isLoading } = useOrders({ page, pageSize: 20 })
 
+  const headers = [
+    { key: 'id', header: 'ID' }, { key: 'total', header: 'Total' }, { key: 'status', header: 'Status' },
+    { key: 'date', header: 'Date' }, { key: 'actions', header: 'Actions' },
+  ]
+  const rows = data?.data.map(o => ({ id: o.id, total: `$${o.total.toFixed(2)}`, status: o.status, date: new Date(o.createdAt).toLocaleDateString(), actions: o })) ?? []
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Orders</h1>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-x-auto">
-        <table className="w-full text-sm" data-testid="staff-orders-table">
-          <thead><tr className="border-b dark:border-gray-700 text-left text-gray-500">
-            <th className="p-3">ID</th><th className="p-3">Total</th><th className="p-3">Status</th><th className="p-3">Date</th><th className="p-3">Actions</th>
-          </tr></thead>
-          <tbody>
-            {isLoading ? <tr><td colSpan={5} className="p-4 text-center text-gray-500">로딩 중...</td></tr>
-            : data?.data.map(o => (
-              <tr key={o.id} className="border-b dark:border-gray-700">
-                <td className="p-3 text-gray-900 dark:text-white">#{o.id}</td>
-                <td className="p-3">${o.total.toFixed(2)}</td>
-                <td className="p-3"><OrderStatusBadge status={o.status} /></td>
-                <td className="p-3 text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</td>
-                <td className="p-3"><OrderActions order={o} role="staff" /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {data && <Pagination page={page} totalPages={data.totalPages} onPageChange={setPage} />}
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <h1>Orders</h1>
+      <DataTable rows={rows} headers={headers} data-testid="staff-orders-table">
+        {({ rows: r, headers: h, getTableProps, getHeaderProps, getRowProps }) => (
+          <Table {...getTableProps()}>
+            <TableHead><TableRow>{h.map(header => <TableHeader {...getHeaderProps({ header })} key={header.key}>{header.header}</TableHeader>)}</TableRow></TableHead>
+            <TableBody>
+              {isLoading ? <TableRow><TableCell colSpan={5}>로딩 중...</TableCell></TableRow>
+              : r.map(row => (
+                <TableRow {...getRowProps({ row })} key={row.id}>
+                  {row.cells.map(cell => (
+                    <TableCell key={cell.id}>
+                      {cell.info.header === 'status' ? <OrderStatusBadge status={cell.value} />
+                      : cell.info.header === 'actions' ? <OrderActions order={cell.value} role="staff" />
+                      : cell.info.header === 'id' ? `#${cell.value}` : cell.value}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DataTable>
+      {data && <Pagination page={page} totalItems={data.total} pageSize={20} onPageChange={setPage} />}
     </div>
   )
 }
