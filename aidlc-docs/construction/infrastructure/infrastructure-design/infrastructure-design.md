@@ -68,7 +68,7 @@ CDK 스택별 리소스 구성을 상세히 정의합니다.
 // 리소스
 - SSM Parameter: /inventrix/{env}/JWT_SECRET (SecureString)
 - SSM Parameter: /inventrix/{env}/DATABASE_URL (SecureString)
-- SSM Parameter: /inventrix/{env}/JWT_EXPIRES_IN (String, default: "1h")
+- SSM Parameter: /inventrix/{env}/JWT_EXPIRES_IN (String, default: "15m")
 - SSM Parameter: /inventrix/{env}/JWT_REFRESH_EXPIRES_IN (String, default: "7d")
 
 // 초기값은 CDK deploy 시 context 또는 수동 설정

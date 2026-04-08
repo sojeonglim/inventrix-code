@@ -6,7 +6,7 @@
 - **담당자**: Cloud/Infra 담당자
 - **Parent State**: `aidlc-docs/aidlc-state.md`
 - **Start Date**: (담당자 시작 시 기록)
-- **Current Stage**: CONSTRUCTION — Infrastructure Design 완료, Code Generation 대기
+- **Current Stage**: CONSTRUCTION — Code Generation 완료, Build and Test 대기
 
 ## 참조 문서
 - **Cross-Unit Contracts**: `aidlc-docs/inception/application-design/cross-unit-contracts.md`
@@ -31,5 +31,5 @@
 - [x] NFR Requirements (2026-04-08)
 - [x] NFR Design (2026-04-08)
 - [x] Infrastructure Design (2026-04-08)
-- [ ] Code Generation
+- [x] Code Generation (2026-04-08)
 - [ ] Build and Test

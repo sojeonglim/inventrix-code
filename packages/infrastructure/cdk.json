@@ -1,0 +1,12 @@
+{
+  "app": "npx ts-node --prefer-ts-exts bin/app.ts",
+  "watch": {
+    "include": ["**"],
+    "exclude": ["node_modules", "dist", "cdk.out"]
+  },
+  "context": {
+    "deployerIp": "0.0.0.0/32",
+    "alertEmail": "admin@inventrix.example.com",
+    "domain": "inventrix.example.com"
+  }
+}

@@ -80,3 +80,41 @@ Tech stack decisions 문서 생성.
 | Security Baseline | Compliant | SG 체인(SECURITY-07), RDS 암호화+TLS(SECURITY-01), SSM 시크릿(SECURITY-09/12), OIDC(SECURITY-13), CW 로깅(SECURITY-02/03/14), npm audit(SECURITY-10) |
 
 ---
+
+## Infrastructure Design — Approved
+**Timestamp**: 2026-04-08T16:00:00+09:00
+**User Input**: "다음 단계 진행해줘." / "그 다음 단계 진행해줘."
+**Context**: Infrastructure Design approved, proceeding to Code Generation
+
+---
+
+## Code Generation — Plan Created
+**Timestamp**: 2026-04-08T16:05:00+09:00
+**AI Response**: Code Generation Plan 생성 완료. 17개 Step:
+- Step 1: 프로젝트 구조 설정
+- Step 2-3: 환경 설정 + CDK 진입점
+- Step 4-9: 6개 CDK 스택 (Network, Database, Secrets, Compute, Monitoring, SES)
+- Step 10-11: Nginx + PM2 설정
+- Step 12-14: 3개 GitHub Actions 워크플로우 (CI, CD-Staging, CD-Production)
+- Step 15-17: Health check 스펙, 배포 가이드, 코드 요약
+**Context**: CONSTRUCTION - Infrastructure, Code Generation Part 1 (Planning)
+
+---
+
+## Code Generation — Complete
+**Timestamp**: 2026-04-08T16:20:00+09:00
+**User Input**: "예. 진행."
+**AI Response**: Infrastructure Unit Code Generation 완료. 17개 Step 전체 실행:
+- CDK 패키지: 6개 스택 (Network, Database, Secrets, Compute, Monitoring, SES)
+- 설정 파일: environments.ts, nginx.conf, ecosystem.config.js
+- CI/CD: 3개 GitHub Actions 워크플로우 (ci, cd-staging, cd-production)
+- 문서: health-check-spec.md, deployment-guide.md, code-summary.md
+총 18개 파일 생성.
+**Context**: CONSTRUCTION - Infrastructure, Code Generation complete
+
+### Extension Compliance Summary
+| Extension | Status | Rationale |
+|---|---|---|
+| Security Baseline | Compliant | SECURITY-01(RDS 암호화+TLS), 02(Nginx 로그→CW), 04(Nginx 보안 헤더), 07(SG 체인), 09(SSM+IMDSv2), 10(npm audit), 12(IAM Role), 13(OIDC+env protection), 14(CW Alarms→SNS) |
+
+---

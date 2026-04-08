@@ -1,0 +1,61 @@
+name: CD Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "deploy" ]; then
+            echo "Deployment not confirmed. Type 'deploy' to proceed."
+            exit 1
+          fi
+
+  ci:
+    needs: validate
+    uses: ./.github/workflows/ci.yml
+
+  deploy-production:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN_PRODUCTION }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to production
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ec2-user
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          script: |
+            cd /var/www/inventrix
+            git pull origin main
+            pnpm install --frozen-lockfile
+            pnpm --filter @inventrix/api build
+            pnpm --filter @inventrix/frontend build
+            pm2 reload ecosystem.config.js --env production
+            sleep 5
+            curl -f http://localhost:3000/api/health || (pm2 reload ecosystem.config.js --update-env && exit 1)
+
+      - name: Health check
+        run: |
+          sleep 10
+          curl -f https://${{ secrets.PRODUCTION_HOST }}/api/health || exit 1
