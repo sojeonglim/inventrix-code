@@ -6,7 +6,7 @@
 - **담당자**: Cloud/Infra 담당자
 - **Parent State**: `aidlc-docs/aidlc-state.md`
 - **Start Date**: (담당자 시작 시 기록)
-- **Current Stage**: CONSTRUCTION 대기 — role-specific-questions 답변 후 시작
+- **Current Stage**: CONSTRUCTION 대기 — role-specific-questions 답변 완료, NFR Requirements 시작 대기
 
 ## 참조 문서
 - **Cross-Unit Contracts**: `aidlc-docs/inception/application-design/cross-unit-contracts.md`
@@ -16,7 +16,10 @@
 - **Personas**: `aidlc-docs/inception/user-stories/personas.md`
 
 ## 사전 작업
-- [ ] `role-specific-questions-infrastructure.md` 답변 완료
+- [x] `role-specific-questions-infrastructure.md` 답변 완료 (2026-04-08)
+  - Infra-Q1: B (EC2 유지 + CDK/IaC 도입)
+  - Infra-Q2: C (GitHub Actions + 자동 배포 staging→production)
+  - Infra-Q3: A (Redis 전체 도입)
 
 ## Extension Configuration
 | Extension | Enabled | Decided At |
