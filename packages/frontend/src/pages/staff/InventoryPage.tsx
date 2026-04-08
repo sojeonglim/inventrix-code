@@ -43,7 +43,7 @@ export default function StaffInventoryPage() {
                         ) : cell.info.header === 'actions' ? (
                           editId === row.id ? (
                             <div style={{ display: 'flex', gap: 4, alignItems: 'flex-end' }}>
-                              <NumberInput id={`stock-${row.id}`} label="" min={0} value={editVal} onChange={(_: unknown, { value }: { value: number }) => setEditVal(value)} size="sm" hideSteppers style={{ width: 80 }} />
+                              <NumberInput id={`stock-${row.id}`} label="" min={0} value={editVal} onChange={(_e: unknown, state: { value: string | number }) => setEditVal(Number(state.value))} size="sm" hideSteppers style={{ width: 80 }} />
                               <Button size="sm" kind="primary" onClick={() => handleSave(row.id)}>Save</Button>
                               <Button size="sm" kind="ghost" onClick={() => setEditId(null)}>Cancel</Button>
                             </div>

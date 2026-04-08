@@ -29,8 +29,8 @@ export default function AdminOrdersPage() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>Orders</h1>
-        <Dropdown id="status-filter" titleText="" label="Filter" items={statusItems} itemToString={(i: { text: string }) => i?.text ?? ''}
-          onChange={({ selectedItem }: { selectedItem: { id: string } }) => { setStatus((selectedItem.id || undefined) as OrderStatus | undefined); setPage(1) }}
+        <Dropdown id="status-filter" titleText="" label="Filter" items={statusItems} itemToString={(i: { text: string } | null) => i?.text ?? ''}
+          onChange={(data: { selectedItem: { id: string; text: string } | null }) => { setStatus((data.selectedItem?.id || undefined) as OrderStatus | undefined); setPage(1) }}
           data-testid="order-status-filter" style={{ width: 160 }} />
       </div>
       <DataTable rows={rows} headers={headers} data-testid="admin-orders-table">

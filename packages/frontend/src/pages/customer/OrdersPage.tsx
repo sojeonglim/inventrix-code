@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Tile, Tag } from '@carbon/react'
+import { Tile } from '@carbon/react'
 import { useOrders } from '@/hooks/use-orders'
 import { OrderStatusBadge } from '@/components/orders/OrderStatusBadge'
 import { OrderActions } from '@/components/orders/OrderActions'

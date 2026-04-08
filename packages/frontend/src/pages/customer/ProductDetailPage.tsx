@@ -40,7 +40,7 @@ export default function ProductDetailPage() {
         {product.availableStock > 0 && (
           <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end' }}>
             <NumberInput id="qty" label="수량" min={1} max={product.availableStock} value={quantity}
-              onChange={(_: unknown, { value }: { value: number }) => setQuantity(value)} data-testid="product-quantity-input" />
+              onChange={(_e: unknown, state: { value: string | number }) => setQuantity(Number(state.value))} data-testid="product-quantity-input" />
             <Button onClick={handleOrder} disabled={createOrder.isPending} data-testid="place-order-button">
               {createOrder.isPending ? <InlineLoading description="주문 중..." /> : 'Place Order'}
             </Button>
