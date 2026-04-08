@@ -14,7 +14,7 @@ C) 컨테이너화 (Docker + ECS/Fargate)
 D) 서버리스 (Lambda + API Gateway)
 E) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: B
 
 ### Infra-Q2: CI/CD 파이프라인
 CI/CD 파이프라인 도입 범위는?
@@ -25,7 +25,7 @@ C) 중간 — GitHub Actions + 자동 배포 (staging → production)
 D) 고급 — 중간 + 인프라 변경 자동화 (CDK deploy)
 E) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: C
 
 ### Infra-Q3: Redis 도입 여부
 캐싱/세션 저장소로 Redis 도입 여부는?
@@ -35,4 +35,4 @@ B) 도입하되 최소 범위 — 세션 + 요청 제한만
 C) 도입 안 함 — 인메모리 또는 DB 기반으로 처리
 D) Other (please describe after [Answer]: tag below)
 
-[Answer]:
+[Answer]: A
