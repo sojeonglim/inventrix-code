@@ -24,9 +24,9 @@
 | Security Baseline | Yes | Requirements Analysis |
 
 ## Stage Progress
-- [ ] Functional Design
-- [ ] NFR Requirements
-- [ ] NFR Design
+- [x] Functional Design
+- [x] NFR Requirements
+- [x] NFR Design
 - [ ] Infrastructure Design — Skip (Unit 3 주 담당)
-- [ ] Code Generation
-- [ ] Build and Test
+- [x] Code Generation
+- [x] Build and Test
