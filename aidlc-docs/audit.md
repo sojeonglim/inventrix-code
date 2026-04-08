@@ -191,3 +191,11 @@
 **Context**: INCEPTION - Units Generation, cross-unit contracts 반영으로 unit-of-work 문서 업데이트
 
 ---
+
+## CONSTRUCTION Preparation
+**Timestamp**: 2026-04-08T14:30:43+09:00
+**User Input**: "좋아. 준비작업까지 반영해줘."
+**AI Response**: Unit별 state/audit 파일 분리, CONSTRUCTION 디렉토리 구조 생성, role-specific-questions 분리 진행.
+**Context**: INCEPTION 완료 → CONSTRUCTION 준비 작업
+
+---
