@@ -14,7 +14,7 @@ C) Redux Toolkit
 D) React Query + Zustand (서버 상태 + 클라이언트 상태 분리)
 E) Other (please describe after [Answer]: tag below)
 
-[Answer]: A
+[Answer]: A 
 
 ### Frontend-Q2: 스타일링
 스타일링 방향은?
@@ -24,7 +24,7 @@ B) CSS Modules
 C) styled-components / Emotion
 D) Other (please describe after [Answer]: tag below)
 
-[Answer]: A
+[Answer]: A 
 
 ### Frontend-Q3: UI 컴포넌트 라이브러리
 UI 컴포넌트 라이브러리 사용 여부는?
@@ -35,4 +35,5 @@ C) Radix UI (headless, 접근성 우수)
 D) MUI (Material UI)
 E) Other (please describe after [Answer]: tag below)
 
-[Answer]: C
+[Answer]: C 
+ 
