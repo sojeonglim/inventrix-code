@@ -215,3 +215,16 @@
 **Context**: Backend Unit의 CONSTRUCTION phase 진입. 기술 결정 질문 + Functional Design 질문을 통합하여 한번에 수집.
 
 ---
+
+## CONSTRUCTION — Unit 1: Backend 질문 답변 확정
+**Timestamp**: 2026-04-08T15:37:38+09:00
+**User Input**: "backend construction 진행하자."
+**AI Response**: 질문 답변 확정. Functional Design 단계 시작.
+**Confirmed Answers**:
+  - A-Q1: A (PostgreSQL), A-Q2: A (Prisma), A-Q3: A (Express REST 개선), A-Q4: B (ESLint+Prettier+Vitest)
+  - B-Q1: A (수동 processing), B-Q2: A (주문 생성 시 예약), B-Q3: A (processing 시 확정)
+  - B-Q4: A (환불 자동 생성), B-Q5: A (기본 비밀번호 정책), B-Q6: C (잠금+알림)
+  - B-Q7: B (Access 15분 + Refresh 7일), B-Q8: B (중간 이메일), B-Q9: B (포괄 감사 로그), B-Q10: A (Pino)
+**Context**: Functional Design 단계 진입.
+
+---

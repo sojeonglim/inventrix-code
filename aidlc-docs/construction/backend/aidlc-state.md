@@ -16,15 +16,24 @@
 - **Personas**: `aidlc-docs/inception/user-stories/personas.md`
 
 ## 사전 작업
-- [ ] `role-specific-questions-backend.md` 답변 완료
+- [x] `role-specific-questions-backend.md` 답변 완료
+- [x] `backend-construction-questions.md` 답변 완료
 
 ## Extension Configuration
 | Extension | Enabled | Decided At |
 |---|---|---|
 | Security Baseline | Yes | Requirements Analysis |
 
+## 기술 결정 요약
+- **DB**: PostgreSQL + Prisma ORM
+- **API**: Express REST 개선 (Service/Repository + Zod)
+- **테스트**: ESLint + Prettier + Vitest
+- **JWT**: Access 15분 + Refresh 7일
+- **로깅**: Pino
+
 ## Stage Progress
-- [ ] Functional Design
+- [x] Functional Design
+- [ ] NFR Requirements
 - [ ] NFR Requirements
 - [ ] NFR Design
 - [ ] Infrastructure Design — Skip 가능 (Unit 3 주 담당)
