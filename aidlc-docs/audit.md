@@ -199,3 +199,19 @@
 **Context**: INCEPTION 완료 → CONSTRUCTION 준비 작업
 
 ---
+
+## Session Resumption — CONSTRUCTION Phase 시작
+**Timestamp**: 2026-04-08T14:46:17+09:00
+**User Input**: "변경된 @research-output과 @aidlc-docs를 다시 확인하여, construction을 진행하자."
+**AI Response**: 세션 재개. INCEPTION 완료 확인. 3개 Unit의 role-specific-questions 미답변 상태 확인. research-output 변경사항 (6개 파일로 재구성) 및 aidlc-docs 전체 상태 로드 완료. Construction 진행을 위해 role-specific questions 답변 수집 시작.
+**Context**: INCEPTION 8단계 모두 완료. CONSTRUCTION 진입 대기. 3개 Unit (Backend, Frontend, Infrastructure) 모두 role-specific-questions 답변 필요.
+
+---
+
+## CONSTRUCTION — Unit 1: Backend 시작
+**Timestamp**: 2026-04-08T14:49:52+09:00
+**User Input**: "Unit 1인 Backend construction을 진행해야해. spec driven을 위해 필요한 질문과 답변을 진행하자."
+**AI Response**: Unit 1 Backend CONSTRUCTION 시작. role-specific-questions 답변 수집 및 Functional Design 질문 생성 진행.
+**Context**: Backend Unit의 CONSTRUCTION phase 진입. 기술 결정 질문 + Functional Design 질문을 통합하여 한번에 수집.
+
+---
