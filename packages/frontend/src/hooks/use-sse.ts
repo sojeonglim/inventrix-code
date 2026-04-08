@@ -1,3 +1,4 @@
+// SSE — 기존 Backend에 SSE 엔드포인트가 없으므로 연결 시도만 하고 실패 시 무시
 import { useEffect, useRef } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/contexts/ToastContext'
@@ -8,50 +9,29 @@ export function useSSE() {
   const { token, user } = useAuth()
   const { addToast } = useToast()
   const esRef = useRef<EventSource | null>(null)
-  const retryRef = useRef(0)
 
   useEffect(() => {
     if (!token || !user) return
 
-    function connect() {
+    try {
       const es = new EventSource(`/api/sse/connect?token=${token}`)
       esRef.current = es
-
-      es.onopen = () => { retryRef.current = 0 }
 
       es.addEventListener('notification', (e) => {
         const data = JSON.parse(e.data)
         addToast('info', data.title, data.message)
         queryClient.invalidateQueries({ queryKey: ['notifications'] })
-        queryClient.invalidateQueries({ queryKey: ['unread-count'] })
       })
 
       es.addEventListener('dashboard_update', (e) => {
-        const data = JSON.parse(e.data) as DashboardKPIs
-        queryClient.setQueryData(['dashboard'], data)
+        queryClient.setQueryData(['dashboard'], JSON.parse(e.data) as DashboardKPIs)
       })
 
-      es.addEventListener('order_status_changed', (e) => {
-        const data = JSON.parse(e.data)
-        addToast('info', 'Order Updated', `Order #${data.orderId}: ${data.newStatus}`)
-        queryClient.invalidateQueries({ queryKey: ['orders'] })
-      })
-
-      es.addEventListener('stock_alert', (e) => {
-        const data = JSON.parse(e.data)
-        const type = data.type === 'depleted' ? 'error' : 'warning'
-        addToast(type, 'Stock Alert', `${data.productName}: ${data.currentStock} remaining`)
-      })
-
-      es.onerror = () => {
-        es.close()
-        const delay = Math.min(1000 * 2 ** retryRef.current, 30_000)
-        retryRef.current++
-        setTimeout(connect, delay)
-      }
+      es.onerror = () => { es.close() }
+    } catch {
+      // SSE not available — ignore
     }
 
-    connect()
     return () => { esRef.current?.close() }
   }, [token, user, addToast])
 }

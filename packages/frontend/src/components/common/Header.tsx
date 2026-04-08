@@ -3,7 +3,7 @@ import {
   HeaderGlobalBar, HeaderGlobalAction, HeaderMenuButton,
   SideNav, SideNavItems, SideNavLink, SkipToContent,
 } from '@carbon/react'
-import { Notification, UserAvatar, Asleep, Light } from '@carbon/icons-react'
+import { UserAvatar, Asleep, Light } from '@carbon/icons-react'
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { TextInput, TextArea, NumberInput, Button, Stack, InlineLoading } from '@carbon/react'
+import { TextInput, TextArea, Button, Stack, InlineLoading } from '@carbon/react'
 import { productSchema, type ProductForm as PF } from '@/lib/validators'
 import { useCreateProduct, useUpdateProduct, useGenerateImage } from '@/hooks/use-products'
 import { useToast } from '@/contexts/ToastContext'
@@ -44,8 +44,8 @@ export function ProductForm({ product, onSuccess }: Props) {
         <TextInput id="name" labelText="상품명" {...register('name')} invalid={!!errors.name} invalidText={errors.name?.message} />
         <TextArea id="desc" labelText="설명" {...register('description')} rows={3} />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <NumberInput id="price" label="가격" min={0} step={0.01} {...register('price')} invalid={!!errors.price} invalidText={errors.price?.message} />
-          <NumberInput id="stock" label="재고" min={0} step={1} {...register('stock')} invalid={!!errors.stock} invalidText={errors.stock?.message} />
+          <TextInput id="price" labelText="가격" type="number" step="0.01" {...register('price')} invalid={!!errors.price} invalidText={errors.price?.message} />
+          <TextInput id="stock" labelText="재고" type="number" step="1" {...register('stock')} invalid={!!errors.stock} invalidText={errors.stock?.message} />
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <TextInput id="imageUrl" labelText="이미지 URL" {...register('imageUrl')} style={{ flex: 1 }} />
