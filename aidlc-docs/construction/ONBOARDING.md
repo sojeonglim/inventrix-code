@@ -84,6 +84,31 @@ role-specific-questions 답변
 
 ---
 
+## 중간 체크 포인트
+
+### 필수 체크
+
+| 시점 | 방식 | 참여자 | 확인 사항 |
+|---|---|---|---|
+| role-specific 답변 후 | 비동기 (PR 리뷰 또는 Slack) | 전체 | 기술 결정이 cross-unit-contracts.md와 충돌하지 않는지 (예: DB 선택 → Infra 프로비저닝) |
+| **Functional Design 완료 후** | **동기 (짧은 미팅 권장)** | **전체** | **⭐ 가장 중요 — API 계약 변경 필요 여부, 새 필드/엔드포인트 추가, DB 스키마 확정** |
+| Code Gen Plan 승인 전 | 비동기 (PR 리뷰) | 관련 Unit | 구현 방식이 계약과 일치하는지, 공유 타입 변경 필요 여부 |
+| 전체 Unit 완료 후 | **동기 (통합 테스트 킥오프)** | **전체** | 통합 연동 검증, E2E 테스트 계획 |
+
+### 권장 체크
+
+| 시점 | 방식 | 참여자 | 확인 사항 |
+|---|---|---|---|
+| NFR Design 완료 후 | 비동기 (contracts diff 공유) | Backend ↔ Frontend | 인증 흐름, 에러 코드, rate limit 헤더 등 Frontend가 알아야 할 변경 |
+| Code Generation 50% 시점 | 비동기 (Slack) | 전체 | 구현 중 누적된 계약 변경 사항 정리 |
+
+### 체크 포인트 운영 규칙
+1. Functional Design 완료 후 체크가 가장 중요 — 가능하면 **Backend Functional Design이 가장 먼저 완료**되는 것이 이상적
+2. 체크 결과 cross-unit-contracts.md 변경이 필요하면 즉시 반영 후 영향받는 Unit에 통보
+3. 각 체크 포인트 결과는 자기 Unit의 `audit.md`에 기록
+
+---
+
 ## 디렉토리 구조
 
 ```
