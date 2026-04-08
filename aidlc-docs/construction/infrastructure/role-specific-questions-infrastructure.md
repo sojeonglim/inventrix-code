@@ -35,4 +35,4 @@ B) 도입하되 최소 범위 — 세션 + 요청 제한만
 C) 도입 안 함 — 인메모리 또는 DB 기반으로 처리
 D) Other (please describe after [Answer]: tag below)
 
-[Answer]: A
+[Answer]: C
